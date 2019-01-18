@@ -13,13 +13,12 @@ namespace Manhattan
         static void Main(string[] args)
         {
             string path = "../../../../data.json";
-            ReturnAllNeighborhoods(path);
+            ReturnAllNeighborhoodsFilterNoNames(path);
         }
-
         /// <summary>
         /// Returns all neighborhoods
         /// </summary>
-        /// <param name="path">JSON path</param>
+        /// <param name="path"></param>
         static void ReturnAllNeighborhoods(string path)
         {
             var allNeighborhoods = "";
@@ -28,12 +27,33 @@ namespace Manhattan
                 allNeighborhoods = reader.ReadToEnd();
             }
             RootObject deserializedProduct = JsonConvert.DeserializeObject<RootObject>(allNeighborhoods);
-            var neighborhoods = from properties in deserializedProduct.features select properties.properties.neighborhood;
+            var neighborhoods = from classes
+                                in deserializedProduct.features
+                                select classes.properties.neighborhood;
+
             foreach (var item in neighborhoods)
             {
                 Console.WriteLine(item);
             }
+        }
 
+        static void ReturnAllNeighborhoodsFilterNoNames(string path)
+        {
+            var allNeighborhoods = "";
+            using (StreamReader reader = File.OpenText(path))
+            {
+                allNeighborhoods = reader.ReadToEnd();
+            }
+            RootObject deserializedProduct = JsonConvert.DeserializeObject<RootObject>(allNeighborhoods);
+            var neighborhoods = from classes 
+                                in deserializedProduct.features
+                                where classes.properties.neighborhood != ""
+                                select classes.properties.neighborhood;
+
+            foreach (var item in neighborhoods)
+            {
+                Console.WriteLine(item);
+            }
         }
 
     }
