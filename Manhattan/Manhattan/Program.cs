@@ -15,8 +15,8 @@ namespace Manhattan
             string path = "../../../../data.json";
             //ReturnAllNeighborhoodsFilterNoNames(path);
             //ReturnAllNeighborhoodsFilterNoDuplicates(path);
-            ReturnAllNeighborhoodsFilterNoSpacesUsingLambda(path);
-            //ReturnAllNeighborhoodsFilterNoDuplicatesOrSpaces(path);
+            //ReturnAllNeighborhoodsFilterNoSpacesUsingLambda(path);
+            ReturnAllNeighborhoodsFilterNoDuplicatesOrSpaces(path);
         }
         /// <summary>
         /// Returns all neighborhoods
