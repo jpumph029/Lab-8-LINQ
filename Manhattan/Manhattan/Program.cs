@@ -13,7 +13,8 @@ namespace Manhattan
         static void Main(string[] args)
         {
             string path = "../../../../data.json";
-            ReturnAllNeighborhoodsFilterNoNames(path);
+            //ReturnAllNeighborhoodsFilterNoNames(path);
+            ReturnAllNeighborhoodsFilterNoDuplicates(path);
         }
         /// <summary>
         /// Returns all neighborhoods
@@ -37,6 +38,10 @@ namespace Manhattan
             }
         }
 
+        /// <summary>
+        /// Returns all neighborhoods and filters out white space.
+        /// </summary>
+        /// <param name="path"></param>
         static void ReturnAllNeighborhoodsFilterNoNames(string path)
         {
             var allNeighborhoods = "";
@@ -53,6 +58,29 @@ namespace Manhattan
             foreach (var item in neighborhoods)
             {
                 Console.WriteLine(item);
+            }
+        }
+        /// <summary>
+        /// Return all neighborhoods and filters out duplicate neighborhoods
+        /// </summary>
+        /// <param name="path"></param>
+        static void ReturnAllNeighborhoodsFilterNoDuplicates(string path)
+        {
+            var allNeighborhoods = "";
+            using (StreamReader reader = File.OpenText(path))
+            {
+                allNeighborhoods = reader.ReadToEnd();
+            }
+            RootObject deserializedProduct = JsonConvert.DeserializeObject<RootObject>(allNeighborhoods);
+            var neighborhoods = from classes
+                                in deserializedProduct.features
+                                group classes by classes.properties.neighborhood
+                                into noDuplicate
+                                select noDuplicate;
+                               
+            foreach (var item in neighborhoods)
+            {
+                Console.WriteLine(item.Key);
             }
         }
 
