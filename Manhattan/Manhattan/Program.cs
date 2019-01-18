@@ -15,6 +15,7 @@ namespace Manhattan
             string path = "../../../../data.json";
             //ReturnAllNeighborhoodsFilterNoNames(path);
             //ReturnAllNeighborhoodsFilterNoDuplicates(path);
+            //ReturnAllNeighborhoodsFilterNoSpacesUsingLambda(path);
             ReturnAllNeighborhoodsFilterNoDuplicatesOrSpaces(path);
         }
         /// <summary>
@@ -107,6 +108,26 @@ namespace Manhattan
             foreach (var item in neighborhoods)
             {
                 Console.WriteLine(item);
+            }
+        }
+
+        /// <summary>
+        /// Returns all neighborhoods with not blank spaces using lambda
+        /// </summary>
+        /// <param name="path"></param>
+        static void ReturnAllNeighborhoodsFilterNoSpacesUsingLambda(string path)
+        {
+            var allNeighborhoods = "";
+            using (StreamReader reader = File.OpenText(path))
+            {
+                allNeighborhoods = reader.ReadToEnd();
+            }
+            RootObject deserializedProduct = JsonConvert.DeserializeObject<RootObject>(allNeighborhoods);
+            var neighborhoods = deserializedProduct.features.Where(l => l.properties.neighborhood != "");
+                            
+            foreach (var item in neighborhoods)
+            {
+                Console.WriteLine(item.properties.neighborhood);
             }
         }
 
